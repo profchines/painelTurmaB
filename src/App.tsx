@@ -1,20 +1,12 @@
-import { Fragment } from "react"
-import { NovuComponent } from './components/NovuComponent'
-import styles from './styles/global.module.css'
+import { Rotas } from "./routes"
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
 
   return (
-    <Fragment key={"unico"}>
-      <NovuComponent />
-      <h1 className={styles.title}>Hello World</h1>
-      <h1 style={{
-        color: 'red',
-        backgroundColor: 'blue'
-      }}>
-        Hello World
-      </h1>
-    </Fragment>
+    <>
+      <Rotas />
+    </>
   )
 }
 
