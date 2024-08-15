@@ -6,6 +6,7 @@ import {
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Produto from './pages/Produto'
+import PageExampleState from './pages/PageExampleState'
 
 export const Rotas = () => {
     return (
@@ -25,6 +26,11 @@ export const Rotas = () => {
                 <Route
                     path='/produto/:id'
                     element={<Produto />}
+                />
+
+                <Route
+                    path='/example'
+                    element={<PageExampleState />}
                 />
 
             </Routes>

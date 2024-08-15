@@ -1,39 +1,33 @@
 
 import {
-    SyntheticEvent,
-    useCallback,
-    useRef
+    SyntheticEvent, useCallback, useRef, useState
 } from 'react'
 import styles from './styles.module.css'
 
-export default function Login() {
+export default function PageExampleState() {
 
-    const refForm = useRef<any>()
+    const refContador = useRef(0)
+    const [estado, setEstado] = useState(0);
 
     const submitForm = useCallback((event: SyntheticEvent) => {
         event.preventDefault();
-
-        if (refForm.current.checkValidity()) {
-
-            const target = event.target as typeof event.target & {
-                email: { value: string },
-                senha: { value: string }
-            }
-
-            console.log(target.email.value)
-            console.log(target.senha.value)
-
-        } else {
-            refForm.current.classList.add('was-validated')
-        }
-    }, [])
+        console.log('Enviou o Formulario')
+        console.log(estado)
+        console.log('refContador.current')
+        console.log(refContador.current)
+    }, [estado])
 
     return (
         <>
             <div className={styles.main}>
                 <div className={styles.border}>
                     <div className='d-flex flex-column align-items-center'>
-                        <h1 className='text-primary'>Login</h1>
+                        <h1 className='text-primary'>
+                            Contador {estado}
+                        </h1>
+                        <h1 className='text-primary'>
+                            Contador Ref {refContador.current}
+                        </h1>
                         <p className='text-secundary'>
                             Preencha os campos para logar
                         </p>
@@ -45,7 +39,6 @@ export default function Login() {
                         className='needs-validation align-items-center'
                         noValidate
                         onSubmit={submitForm}
-                        ref={refForm}
                     >
                         <div
                             className='col-md-12'
@@ -98,6 +91,30 @@ export default function Login() {
                                 id='botao'
                             >
                                 Enviar
+                            </button>
+                        </div>
+                        <div className='col-md-12 mt-3'>
+                            <button
+                                className='btn btn-warning w-100'
+                                type='button'
+                                id='botao'
+                                onClick={() => {
+                                    setEstado(estado + 1)
+                                }}
+                            >
+                                Somar
+                            </button>
+                        </div>
+                        <div className='col-md-12 mt-3'>
+                            <button
+                                className='btn btn-success w-100'
+                                type='button'
+                                id='botao'
+                                onClick={() => {
+                                    refContador.current = refContador.current + 1
+                                }}
+                            >
+                                Somar Ref
                             </button>
                         </div>
                     </form>
