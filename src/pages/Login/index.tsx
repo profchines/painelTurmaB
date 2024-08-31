@@ -2,19 +2,30 @@
 import {
     SyntheticEvent,
     useCallback,
-    useRef
+    useRef,
+    useState
 } from 'react'
 import styles from './styles.module.css'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Loading } from '../../components/Loading';
+import { Toast } from '../../components/Toast';
+
 
 export default function Login() {
 
+    const navigate = useNavigate()
+
     const refForm = useRef<any>()
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const submitForm = useCallback((event: SyntheticEvent) => {
         event.preventDefault();
 
         if (refForm.current.checkValidity()) {
 
+            setIsLoading(true)
             const target = event.target as typeof event.target & {
                 email: { value: string },
                 senha: { value: string }
@@ -23,6 +34,23 @@ export default function Login() {
             console.log(target.email.value)
             console.log(target.senha.value)
 
+            axios.post('http://localhost:3001/login',
+                {
+                    email: target.email.value,
+                    password: target.senha.value
+                }
+            ).then((resposta) => {
+                console.log(resposta.data)
+                // não usar
+                // window.location('/')
+
+                navigate('/dashboard')
+            })
+            .catch((erro) => {
+                console.log(erro)
+                setIsLoading(false)
+            })
+
         } else {
             refForm.current.classList.add('was-validated')
         }
@@ -30,6 +58,17 @@ export default function Login() {
 
     return (
         <>
+            <Loading
+                visible={isLoading}
+                
+            />
+            <Toast
+                message='Credenciais Invalidas'
+                onClose={() => {}}
+                show={true}
+                color='danger'
+            />
+            
             <div className={styles.main}>
                 <div className={styles.border}>
                     <div className='d-flex flex-column align-items-center'>

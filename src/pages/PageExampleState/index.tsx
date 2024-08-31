@@ -6,12 +6,16 @@ import styles from './styles.module.css'
 
 export default function PageExampleState() {
 
+    // let contador = 0
     const refContador = useRef(0)
     const [estado, setEstado] = useState(0);
 
+    // function nomeFuncao() {}
     const submitForm = useCallback((event: SyntheticEvent) => {
         event.preventDefault();
-        console.log('Enviou o Formulario')
+
+        let contador = 0
+        console.log('Enviou o Formulario Estado')
         console.log(estado)
         console.log('refContador.current')
         console.log(refContador.current)
@@ -23,7 +27,7 @@ export default function PageExampleState() {
                 <div className={styles.border}>
                     <div className='d-flex flex-column align-items-center'>
                         <h1 className='text-primary'>
-                            Contador {estado}
+                            Contador Estado {estado}
                         </h1>
                         <h1 className='text-primary'>
                             Contador Ref {refContador.current}
