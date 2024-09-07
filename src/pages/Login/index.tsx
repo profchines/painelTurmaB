@@ -19,6 +19,7 @@ export default function Login() {
     const refForm = useRef<any>()
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isToast, setIsToast] = useState(false)
 
     const submitForm = useCallback((event: SyntheticEvent) => {
         event.preventDefault();
@@ -44,12 +45,18 @@ export default function Login() {
                 // não usar
                 // window.location('/')
 
+                localStorage.setItem(
+                    'americanos.token',
+                    JSON.stringify(resposta.data)
+                )
+
                 navigate('/dashboard')
             })
-            .catch((erro) => {
-                console.log(erro)
-                setIsLoading(false)
-            })
+                .catch((erro) => {
+                    console.log(erro)
+                    setIsLoading(false)
+                    setIsToast(true)
+                })
 
         } else {
             refForm.current.classList.add('was-validated')
@@ -60,15 +67,15 @@ export default function Login() {
         <>
             <Loading
                 visible={isLoading}
-                
+
             />
             <Toast
                 message='Credenciais Invalidas'
-                onClose={() => {}}
-                show={true}
+                onClose={() => { setIsToast(false) }}
+                show={isToast}
                 color='danger'
             />
-            
+
             <div className={styles.main}>
                 <div className={styles.border}>
                     <div className='d-flex flex-column align-items-center'>
