@@ -1,14 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LayoutDashboard } from "../../components/LayoutDashboard";
 import { IToken } from "../../interfaces/token";
 import { verificaTokenExpirado } from "../../services/token";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+interface IUsuarios {
+    id: number
+    nome: string
+    email: string
+    permissoes: string
+}
 
 export default function Usuarios() {
 
     const navigate = useNavigate()
+
+    const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([])
 
     useEffect(() => {
         let lsToken = localStorage.getItem('americanos.token')
@@ -19,7 +27,7 @@ export default function Usuarios() {
             token = JSON.parse(lsToken)
         }
 
-        if (!token || verificaTokenExpirado(token.accessToken)){
+        if (!token || verificaTokenExpirado(token.accessToken)) {
             navigate('/')
         }
 
@@ -27,7 +35,7 @@ export default function Usuarios() {
         //trazer os usuarios do backend
         axios.get('http://localhost:3001/users')
             .then((resposta) => {
-                console.log(resposta.data)
+                setUsuarios(resposta.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -39,7 +47,7 @@ export default function Usuarios() {
     return (
         <>
             <LayoutDashboard>
-                
+
                 <div
                     className="d-flex justify-content-between mt-3"
                 >
@@ -48,7 +56,7 @@ export default function Usuarios() {
                         type="button"
                         className="btn btn-success"
                         onClick={() => {
-                            // navigate('')
+                            navigate('/usuarios/criar')
                         }}
                     >Adicionar</button>
 
@@ -64,32 +72,38 @@ export default function Usuarios() {
                         </tr>
                     </thead>
                     <tbody>
+                        {
+                            usuarios.map((usuario, index) => {
+                                return (
+                                    <tr key={usuario.id}>
+                                        <th>
+                                            {usuario.id}
+                                        </th>
+                                        <td>{usuario.nome}</td>
+                                        <td>{usuario.email}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-warning"
+                                                type="button"
+                                                style={{
+                                                    marginRight: 5
+                                                }}
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="btn btn-danger"
+                                                type="button"
 
-                        <tr>
-                            <th>
-                                123
-                            </th>
-                            <td>Bia Maria</td>
-                            <td>bmaria@gmail.com</td>
-                            <td>
-                                <button
-                                    className="btn btn-warning"
-                                    type="button"
-                                    style={{
-                                        marginRight: 5
-                                    }}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className="btn btn-danger"
-                                    type="button"
-                                    
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+
                     </tbody>
 
                 </table>
