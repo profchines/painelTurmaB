@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LayoutDashboard } from "../../components/LayoutDashboard";
 import { IToken } from "../../interfaces/token";
-import { verificaTokenExpirado } from "../../services/token";
+import { validaPermissao, verificaTokenExpirado } from "../../services/token";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -27,8 +27,18 @@ export default function Usuarios() {
             token = JSON.parse(lsToken)
         }
 
-        if (!token || verificaTokenExpirado(token.accessToken)) {
+        if (
+            !token ||
+            verificaTokenExpirado(token.accessToken)
+        ) {
             navigate('/')
+        }
+
+        if (!validaPermissao(
+            ['admin', 'usuario'],
+            token?.user.permissoes
+        )) {
+            navigate('/dashboard')
         }
 
 
@@ -87,6 +97,9 @@ export default function Usuarios() {
                                                 type="button"
                                                 style={{
                                                     marginRight: 5
+                                                }}
+                                                onClick={() => {
+                                                    navigate(`/usuarios/${usuario.id}`)
                                                 }}
                                             >
                                                 Editar

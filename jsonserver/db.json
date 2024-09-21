@@ -8,11 +8,18 @@
       "permissoes": "admin"
     },
     {
-      "email": "alberto@gmail.com",
-      "password": "$2a$10$gukSRQE2mVFuIrX5WIBmX.gT/VjCsY1grzzXI.uC5Y1zDBV/zKP16",
       "nome": "Yuri Alberto",
+      "email": "alberto@gmail.com",
       "permissoes": "admin",
+      "password": "",
       "id": 2
+    },
+    {
+      "nome": "Yamal",
+      "email": "lamine@gmail.com",
+      "permissoes": "colaborador",
+      "password": "$2a$10$bDeTdqxurJ0AW6RIOK/O/.lacPtYYEVdVCevXQ2zGk02O4K7zHj72",
+      "id": 3
     }
   ]
 }
