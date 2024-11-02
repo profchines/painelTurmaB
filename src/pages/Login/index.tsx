@@ -21,6 +21,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false)
     const [isToast, setIsToast] = useState(false)
 
+    console.log(import.meta.env.VITE_API_URL)
     const submitForm = useCallback((event: SyntheticEvent) => {
         event.preventDefault();
 
@@ -34,8 +35,9 @@ export default function Login() {
 
             console.log(target.email.value)
             console.log(target.senha.value)
+            console.log(import.meta.env.VITE_API_URL)
 
-            axios.post('http://localhost:3001/login',
+            axios.post(import.meta.env.VITE_API_URL + '/login',
                 {
                     email: target.email.value,
                     password: target.senha.value
